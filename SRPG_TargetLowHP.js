@@ -1,6 +1,6 @@
 ﻿// =============================================================================
 // SRPG_TargetLowHP.js
-// Version: 1.00
+// Version: 1.01
 // -----------------------------------------------------------------------------
 // Copyright (c) 2018 ヱビ
 // Released under the MIT license
@@ -12,7 +12,7 @@
 
 
 /*:
- * @plugindesc v1.00 SRPGコンバータMVで、HPが低いアクターが狙われます。また、ヘイトリングとデスマークを表示できます。
+ * @plugindesc v1.01 SRPGコンバータMVで、HPが低いアクターが狙われます。また、ヘイトリングとデスマークを表示できます。
  * @author ヱビ
  * 
  * @requiredAssets img/system/hatering
@@ -98,6 +98,10 @@
  * 更新履歴
  * ============================================================================
  * 
+ * Version 1.01
+ *   最新のＳＲＰＧコンバータＭＶで2ターン目以降敵のターンが来なくなっていた問
+ *   題を修正しました。
+ * 
  * Version 1.00
  *   プラグイン公開
  * 
@@ -148,6 +152,18 @@
 //=============================================================================
 // Game_System
 //=============================================================================
+	//エネミーターンの開始
+	Game_System.prototype.srpgStartEnemyTurn = function() {
+	  $gameMap.events().forEach(function(event) {
+	    if (event.isType() === 'enemyTurn') {
+	      if (event.pageIndex() >= 0) event.start();
+	      $gameTemp.pushSrpgEventList(event);
+	    }
+	  });
+	  $gameSystem.setAutoUnitId(1); //この1行を追加
+	  this.setBattlePhase('enemy_phase');
+	  this.setSubBattlePhase('enemy_command');
+	};
 
 	var _Game_System_prototype_srpgStartActorTurn = Game_System.prototype.srpgStartActorTurn;
 	Game_System.prototype.srpgStartActorTurn = function() {
