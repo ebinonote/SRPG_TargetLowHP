@@ -28,14 +28,17 @@ hatering.pngとdeathmark.pngをimg/systemフォルダに入れてください。
 
 ## ヘイトリング
 
+![ヘイトリングの画像](hatering.png)
 
 ヘイトリングとは、敵に狙われていることを示す赤い輪です。  
 
 プラグインパラメータでON・OFFの切り替えが可能です。  
 
 
+
 ## デスマーク
 
+![デスマークの画像](deathmark.png)
 
 デスマークとは、次の敵のターン中にやられそうな味方を示すマークです。
 
@@ -49,6 +52,7 @@ hatering.pngとdeathmark.pngをimg/systemフォルダに入れてください。
  - srpgPredictionDamageでダメージを予測できないスキル（2回攻撃など）
 
 プラグインパラメータ・プラグインコマンドでON・OFFの切り替えが可能です。
+
 
 
 ## プラグインコマンド
