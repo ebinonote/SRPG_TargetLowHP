@@ -1,6 +1,6 @@
 ﻿// =============================================================================
 // SRPG_TargetLowHP.js
-// Version: 1.01
+// Version: 1.02
 // -----------------------------------------------------------------------------
 // Copyright (c) 2018 ヱビ
 // Released under the MIT license
@@ -12,7 +12,7 @@
 
 
 /*:
- * @plugindesc v1.01 SRPGコンバータMVで、HPが低いアクターが狙われます。また、ヘイトリングとデスマークを表示できます。
+ * @plugindesc v1.02 SRPGコンバータMVで、HPが低いアクターが狙われます。また、ヘイトリングとデスマークを表示できます。
  * @author ヱビ
  * 
  * @requiredAssets img/system/hatering
@@ -97,6 +97,10 @@
  * ============================================================================
  * 更新履歴
  * ============================================================================
+ * 
+ * Version 1.02
+ *   エネミーがＭＰ/ＴＰが足りない場合でもスキルを使用してしまい、ＭＰ/ＴＰが
+ *   マイナスになる不具合を修正しました。
  * 
  * Version 1.01
  *   最新のＳＲＰＧコンバータＭＶで2ターン目以降敵のターンが来なくなっていた問
@@ -657,7 +661,12 @@
 		if ($gameSystem.isSRPGMode() && this.isEnemy() && 
 			!(this.srpgSkillRange(item) < $gameTemp.SrpgDistance() ||
                 this.srpgSkillMinRange(item) > $gameTemp.SrpgDistance())) {
-			return true;
+			// v1.02 訂正部分
+			if (DataManager.isSkill(item)) {
+        return this.meetsSkillConditions(item);
+	    } else if (DataManager.isItem(item)) {
+	        return this.meetsItemConditions(item);
+	    }
 		}
 		return _Game_BattlerBase_prototype_canUse.call(this, item);
 	};
